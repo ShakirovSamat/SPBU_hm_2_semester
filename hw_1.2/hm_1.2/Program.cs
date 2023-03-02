@@ -182,7 +182,7 @@ namespace hm_1._2
                     }
                 }
                 string reversedString = ReverseBTW(str, numberOfOriginString);
-                if (GetBWT(reversedString) == str)
+                if (GetBWT(reversedString) == str + " " + numberOfOriginString.ToString())
                 {
                     Console.WriteLine($"Reversed string: {reversedString}");
                 }
