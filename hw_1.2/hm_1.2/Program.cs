@@ -181,8 +181,16 @@ namespace hm_1._2
                         Console.WriteLine("Wrong input");
                     }
                 }
-
-                Console.WriteLine($"{ReverseBTW(str, numberOfOriginString)}");
+                string reversedString = ReverseBTW(str, numberOfOriginString);
+                if (GetBWT(reversedString) == str)
+                {
+                    Console.WriteLine($"Reversed string: {reversedString}");
+                }
+                else
+                {
+                    Console.WriteLine("Wrong input. The string wasn't created by BWT");
+                }
+                
             }
         }
 
