@@ -9,7 +9,7 @@
         private class TrieNode
         {
             public char value;
-            public int branches;
+            public int wordsWithSuchPrefix;
             public bool isTerminated;
             public Dictionary<char, TrieNode> children;
 
@@ -17,12 +17,12 @@
             {
                 this.value = value;
                 children = new Dictionary<char, TrieNode>();
-                branches = 1;
+                wordsWithSuchPrefix = 1;
             }
             public TrieNode()
             {
                 children = new Dictionary<char, TrieNode>();
-                branches = 1;
+                wordsWithSuchPrefix = 1;
             }
         }
         public Trie()
@@ -45,12 +45,12 @@
             }
 
             TrieNode currentTrieNode = head;
-            foreach(char sign in word)
+            foreach (char sign in word)
             {
                 if (currentTrieNode.children.ContainsKey(sign))
                 {
                     currentTrieNode = currentTrieNode.children[sign];
-                    currentTrieNode.branches++;
+                    currentTrieNode.wordsWithSuchPrefix++;
                 }
                 else
                 {
@@ -73,7 +73,7 @@
                 return false;
             }
             TrieNode currentTieNode = head;
-            foreach(char sign in word)
+            foreach (char sign in word)
             {
                 if (!currentTieNode.children.ContainsKey(sign))
                 {
@@ -81,7 +81,7 @@
                 }
                 currentTieNode = currentTieNode.children[sign];
             }
-                   
+
             return currentTieNode.isTerminated;
         }
 
@@ -102,17 +102,24 @@
             --size;
 
             TrieNode currentTrieNode = head.children[word[0]];
-            for (int i= 1; i < word.Length; ++i)
+            if (word.Length <= 1)
             {
-                currentTrieNode.branches--;
-                if (currentTrieNode.children[word[i]].branches == 1)
+                head.children[word[0]].isTerminated = false;
+                return true;
+            }
+
+            for (int i = 1; i < word.Length; ++i)
+            {
+                currentTrieNode.wordsWithSuchPrefix--;
+                if (currentTrieNode.children[word[i]].wordsWithSuchPrefix == 1)
                 {
-                    currentTrieNode.children.Remove(word[i]);
+                    currentTrieNode.children[word[i]].isTerminated = false;
                     return true;
                 }
                 currentTrieNode = currentTrieNode.children[word[i]];
-                
+
             }
+            currentTrieNode.isTerminated = false;
             return true;
         }
 
@@ -126,7 +133,7 @@
             }
 
             TrieNode currentTrieNode = head;
-            foreach(char sign in prefix)
+            foreach (char sign in prefix)
             {
                 if (currentTrieNode.children.ContainsKey(sign))
                 {
@@ -137,7 +144,7 @@
                     return 0;
                 }
             }
-            return currentTrieNode.branches;
+            return currentTrieNode.wordsWithSuchPrefix;
         }
 
         // returns amount of words in the trie

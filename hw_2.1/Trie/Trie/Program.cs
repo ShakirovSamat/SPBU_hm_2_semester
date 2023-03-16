@@ -2,8 +2,43 @@
 
 class Program
 {
+
+    static int Test()
+    {
+        Trie trie = new Trie();
+        trie.Add("Car");
+        trie.Add("Cat");
+        if (trie.GetSize() != 2)
+        {
+            return 1;
+        }
+
+        if (!trie.Contains("Car") || trie.Contains("Ca") || trie.Contains("Cart") || !trie.Contains("Car"))
+        {
+            return 2;
+        }
+
+        trie.Add("Carry");
+        trie.Remove("Car");
+        if (trie.Contains("Car"))
+        {
+            return 3;
+        }
+
+        trie.Add("Car");
+        if (trie.HowManyStartsWithPrefix("Ca") != 3)
+        {
+            return 4;
+        }
+        return 0;
+    }
     static void Main()
     {
+        int errorCode = Test();
+        if (errorCode != 0)
+        {
+            Console.WriteLine($"Error code: {errorCode}");
+        }
         Trie trie = new Trie();
         string? command;
         bool processing = true;
