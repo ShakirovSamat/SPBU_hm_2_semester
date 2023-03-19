@@ -57,6 +57,11 @@
                 else if (input[i] == "/")
                 {
                     (double, double) numbers = GetNumbers();
+                    if (numbers.Item1.CompareTo(0) == 0)
+                    {
+                        Console.WriteLine("Dividing by zero exception");
+                        Environment.Exit(0);
+                    }
 
                     stack.Push(numbers.Item2 / numbers.Item1);
                 }
