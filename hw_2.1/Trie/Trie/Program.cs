@@ -8,7 +8,7 @@ class Program
         Trie trie = new Trie();
         trie.Add("Car");
         trie.Add("Cat");
-        if (trie.GetSize() != 2)
+        if (trie.Size != 2)
         {
             return 1;
         }
@@ -70,7 +70,7 @@ class Program
                     break;
 
                 case "3":
-                    Console.WriteLine($"Size is {trie.GetSize()}");
+                    Console.WriteLine($"Size is {trie.Size}");
                     break;
 
                 case "4":

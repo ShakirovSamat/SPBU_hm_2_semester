@@ -4,25 +4,25 @@
     public class Trie
     {
         private TrieNode head;
-        private int size;
+        public int Size { get; set; }
 
         private class TrieNode
         {
-            public char value;
-            public int wordsWithSuchPrefix;
-            public bool isTerminated;
-            public Dictionary<char, TrieNode> children;
+            public char Value { get; set; }
+            public int WordsWithSuchPrefix { get; set; }
+            public bool IsTerminated { get; set; }
+            public Dictionary<char, TrieNode> Children { get; set; }
 
             public TrieNode(char value)
             {
-                this.value = value;
-                children = new Dictionary<char, TrieNode>();
-                wordsWithSuchPrefix = 1;
+                this.Value = value;
+                Children = new Dictionary<char, TrieNode>();
+                WordsWithSuchPrefix = 1;
             }
             public TrieNode()
             {
-                children = new Dictionary<char, TrieNode>();
-                wordsWithSuchPrefix = 1;
+                Children = new Dictionary<char, TrieNode>();
+                WordsWithSuchPrefix = 1;
             }
         }
         public Trie()
@@ -33,10 +33,9 @@
         //Adds new word to the trie
         public bool Add(string word)
         {
-            if (word == null || word == "")
+            if (String.IsNullOrEmpty(word))
             {
-                Console.WriteLine("Wrong input");
-                return false;
+                throw new WrongInputException("Wrong input");
             }
 
             if (Contains(word))
@@ -47,51 +46,50 @@
             TrieNode currentTrieNode = head;
             foreach (char sign in word)
             {
-                if (currentTrieNode.children.ContainsKey(sign))
+                if (currentTrieNode.Children.ContainsKey(sign))
                 {
-                    currentTrieNode = currentTrieNode.children[sign];
-                    currentTrieNode.wordsWithSuchPrefix++;
+                    currentTrieNode = currentTrieNode.Children[sign];
+                    currentTrieNode.WordsWithSuchPrefix++;
                 }
                 else
                 {
-                    currentTrieNode.children.Add(sign, new TrieNode(sign));
-                    currentTrieNode = currentTrieNode.children[sign];
+                    currentTrieNode.Children.Add(sign, new TrieNode(sign));
+                    currentTrieNode = currentTrieNode.Children[sign];
                 }
             }
 
-            currentTrieNode.isTerminated = true;
-            ++size;
+            currentTrieNode.IsTerminated = true;
+            ++Size;
             return true;
         }
 
         //Searchs the word in the trie
         public bool Contains(string word)
         {
-            if (word == null || word == "")
+            if (String.IsNullOrEmpty(word))
             {
-                Console.WriteLine("Wrong input");
-                return false;
+                throw new WrongInputException("Wrong input");
             }
+
             TrieNode currentTieNode = head;
             foreach (char sign in word)
             {
-                if (!currentTieNode.children.ContainsKey(sign))
+                if (!currentTieNode.Children.ContainsKey(sign))
                 {
                     return false;
                 }
-                currentTieNode = currentTieNode.children[sign];
+                currentTieNode = currentTieNode.Children[sign];
             }
 
-            return currentTieNode.isTerminated;
+            return currentTieNode.IsTerminated;
         }
 
         //Deletes the word in the trie
         public bool Remove(string word)
         {
-            if (word == null || word == "")
+            if (String.IsNullOrEmpty(word))
             {
-                Console.WriteLine("Wrong input");
-                return false;
+                throw new WrongInputException("Wrong input");
             }
 
             if (!Contains(word))
@@ -99,59 +97,51 @@
                 return false;
             }
 
-            --size;
+            --Size;
 
-            TrieNode currentTrieNode = head.children[word[0]];
+            TrieNode currentTrieNode = head.Children[word[0]];
             if (word.Length <= 1)
             {
-                head.children[word[0]].isTerminated = false;
+                head.Children[word[0]].IsTerminated = false;
                 return true;
             }
 
             for (int i = 1; i < word.Length; ++i)
             {
-                currentTrieNode.wordsWithSuchPrefix--;
-                if (currentTrieNode.children[word[i]].wordsWithSuchPrefix == 1)
+                currentTrieNode.WordsWithSuchPrefix--;
+                if (currentTrieNode.Children[word[i]].WordsWithSuchPrefix == 1)
                 {
-                    currentTrieNode.children[word[i]].isTerminated = false;
+                    currentTrieNode.Children[word[i]].IsTerminated = false;
                     return true;
                 }
-                currentTrieNode = currentTrieNode.children[word[i]];
+                currentTrieNode = currentTrieNode.Children[word[i]];
 
             }
-            currentTrieNode.isTerminated = false;
+            currentTrieNode.IsTerminated = false;
             return true;
         }
 
         // Finds amount of words staring with the prefix
         public int HowManyStartsWithPrefix(string prefix)
         {
-            if (prefix == null || prefix == "")
+            if (String.IsNullOrEmpty(prefix))
             {
-                Console.WriteLine("Wrong input");
-                return 0;
+                throw new WrongInputException("Wrong input");
             }
 
             TrieNode currentTrieNode = head;
             foreach (char sign in prefix)
             {
-                if (currentTrieNode.children.ContainsKey(sign))
+                if (currentTrieNode.Children.ContainsKey(sign))
                 {
-                    currentTrieNode = currentTrieNode.children[sign];
+                    currentTrieNode = currentTrieNode.Children[sign];
                 }
                 else
                 {
                     return 0;
                 }
             }
-            return currentTrieNode.wordsWithSuchPrefix;
+            return currentTrieNode.WordsWithSuchPrefix;
         }
-
-        // returns amount of words in the trie
-        public int GetSize()
-        {
-            return size;
-        }
-
     }
 }
