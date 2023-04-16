@@ -2,7 +2,7 @@
 
 class Program
 {
-    static void swap(int[] array, int firstIndex, int secondIndex)
+    static void Swap(int[] array, int firstIndex, int secondIndex)
     {
         int temp = array[firstIndex];
         array[firstIndex] = array[secondIndex];
@@ -17,7 +17,7 @@ class Program
             {
                 if (array[j] > array[j + 1])
                 {
-                    swap(array, j, j + 1);
+                    Swap(array, j, j + 1);
                 }
             }
         }
@@ -38,22 +38,23 @@ class Program
             }
         }
 
-        int[] array = new int[length];
+        var array = new int[length];
 
         for (int i = 0; i < length; ++i)
         {
             isNumber = false;
 
-            while (!isNumber)
+            while (true)
             {
                 Console.Write($"Enter {i + 1} number: ");
                 string number = Console.ReadLine();
                 isNumber = int.TryParse(number, out array[i]);
 
-                if (!isNumber)
+                if (isNumber && array[i] >= 0)
                 {
-                    Console.WriteLine("Wrong input. Please, enter number");
+                    break;
                 }
+                Console.WriteLine("Wrong input. Please, enter positive number");
             }
         }
 
