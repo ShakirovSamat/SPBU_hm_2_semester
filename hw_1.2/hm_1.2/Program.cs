@@ -6,16 +6,16 @@ namespace hm_1._2
     class Program
     {
         //calculate BWT
-        static string GetBWT(string str)
+        static (string encodingString, int endPosition) GetBWT(string str)
         {
             byte[] strInASCII = Encoding.ASCII.GetBytes(str);
-            int[,] circlePermutations = new int[strInASCII.Length, strInASCII.Length];
+            var circlePermutations = new int[strInASCII.Length, strInASCII.Length];
 
             string result = "";
-            int numberOfoOriginalString = 1;
+            int numberOfOriginalString = 1;
             bool isOriginalStringSorted = false;
 
-            //Creat all circle permutations
+            //Create all circle permutations
             for (int i = 0; i < strInASCII.Length; ++i)
             {
                 for (int j = 0; j < strInASCII.Length; ++j)
@@ -26,7 +26,6 @@ namespace hm_1._2
             // step by step find the smallest permutation and write last char in result
             for (int i = 0; i < strInASCII.Length; ++i)
             {
-
                 int min = 0;
                 for (int j = 0; j < strInASCII.Length; ++j)
                 {
@@ -39,7 +38,6 @@ namespace hm_1._2
                     {
                         min = j;
                     }
-
                 }
                 // next two conditions are needed to find number of original permutation
                 if (min == 0)
@@ -49,14 +47,14 @@ namespace hm_1._2
 
                 if (!isOriginalStringSorted)
                 {
-                    ++numberOfoOriginalString;
+                    ++numberOfOriginalString;
                 }
                 result += (char)circlePermutations[min, strInASCII.Length - 1];
-                circlePermutations[min, 0] = 1000;
+                circlePermutations[min, 0] = int.MaxValue;
             }
 
 
-            return result + " " + Convert.ToString(numberOfoOriginalString);
+            return (result, numberOfOriginalString);
         }
 
         static string ReverseBTW(string str, int numberOfOriginString)
@@ -74,27 +72,27 @@ namespace hm_1._2
             }
 
             // amount of every sign
-            int[] count = new int[alphabet.Length];
-            for (int i = 0; i < count.Length; ++i)
+            var symbolFrequencies = new int[alphabet.Length];
+            for (int i = 0; i < symbolFrequencies.Length; ++i)
             {
                 for (int j = 0; j < str.Length; ++j)
                 {
                     if (str[j] == alphabet[i])
                     {
-                        ++count[i];
+                        ++symbolFrequencies[i];
                     }
                 }
             }
 
-            int[] sum = new int[count.Length];
+            var sum = new int[symbolFrequencies.Length];
             sum[0] = 1;
             for (int i = 1; i < sum.Length; ++i)
             {
-                sum[i] = count[i - 1] + sum[i - 1];
+                sum[i] = symbolFrequencies[i - 1] + sum[i - 1];
             }
 
             // form auxiliary array
-            int[] p = new int[str.Length];
+            var p = new int[str.Length];
             for (int i = 0; i < str.Length; ++i)
             {
                 int index = 0;
@@ -147,42 +145,27 @@ namespace hm_1._2
             {
                 Console.Write("Enter string: ");
                 string str = Console.ReadLine();
-                string btwString = GetBWT(str);
-                Console.WriteLine($"{btwString}");
+                var btwResult = GetBWT(str);
+                Console.WriteLine($"{btwResult.encodingString}, {btwResult.endPosition}");
             }
             else
             {
-                bool isNumber = false;
-                int numberOfOriginString = 0;
-                string str = "";
-
                 // input
-                while (!isNumber)
+                Console.Write("Enter string btw: ");
+                string btwString = Console.ReadLine();
+                int btwNumber = 0;
+                while (true)
                 {
-                    Console.Write("Enter string: ");
-                    str = Console.ReadLine();
-                    //get number of origin string
-                    for (int i = str.Length - 1; i >= 0; --i)
+                    Console.Write("Enter btw number: ");
+                    if(int.TryParse(Console.ReadLine(), out btwNumber))
                     {
-                        if (str[i] == ' ')
-                        {
-                            string num = "";
-                            for (int j = i + 1; j < str.Length; ++j)
-                            {
-                                num += str[j];
-                            }
-                            isNumber = int.TryParse(num, out numberOfOriginString);
-                            str = str.Replace(" " + num, "");
-                            break;
-                        }
-                    }
-                    if (!isNumber)
-                    {
-                        Console.WriteLine("Wrong input");
+                        break;
                     }
                 }
-                string reversedString = ReverseBTW(str, numberOfOriginString);
-                if (GetBWT(reversedString) == str + " " + numberOfOriginString.ToString())
+                
+                string reversedString = ReverseBTW(btwString, btwNumber);
+                var btwResult = GetBWT(reversedString);
+                if (btwResult.encodingString == btwString && btwResult.endPosition == btwNumber)
                 {
                     Console.WriteLine($"Reversed string: {reversedString}");
                 }
