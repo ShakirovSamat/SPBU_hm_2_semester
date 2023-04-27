@@ -1,4 +1,6 @@
-﻿namespace Calculator
+﻿using System;
+
+namespace CalculatorLogic
 {
     public class Calculator
     {

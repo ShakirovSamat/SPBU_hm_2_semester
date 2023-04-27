@@ -1,8 +1,10 @@
+using CalculatorLogic;
+
 namespace Calculator
 {
     public partial class Form1 : Form
     {
-        Calculator calculator = new Calculator();
+        CalculatorLogic.CalculatorLogic calculator = new CalculatorLogic.CalculatorLogic();
         public Form1()
         {
             InitializeComponent();

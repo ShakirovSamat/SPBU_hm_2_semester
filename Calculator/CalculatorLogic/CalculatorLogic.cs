@@ -1,6 +1,8 @@
-﻿namespace CalculatorLogic
+﻿using System.ComponentModel;
+
+namespace CalculatorLogic
 {
-    public class Calculator
+    public class CalculatorLogic
     {
         double firstNumber;
         double secondNumber;
