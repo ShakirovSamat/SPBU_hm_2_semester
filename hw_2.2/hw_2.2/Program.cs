@@ -71,7 +71,7 @@ namespace program
             while (!(command == 1 || command == 2))
             {
                 Console.Write("Enter command: ");
-                if(!int.TryParse(Console.ReadLine(), out command) || command != 2 && command != 1)
+                if (!int.TryParse(Console.ReadLine(), out command) || command != 2 && command != 1)
                 {
                     Console.WriteLine("Wrong input!");
                 }
@@ -107,8 +107,16 @@ namespace program
                     break;
                 }
             }
-            
-            Console.WriteLine($"\n\nResult: {stackCalculator.Calculate(input)}");
+
+            try
+            {
+                Console.WriteLine($"\n\nResult: {stackCalculator.Calculate(input)}");
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine("Wrong input. Input must contain numbers or +, -, *, /. Between symbols must be space.\n" +
+                    "if symbols are correct then arithmetic expression is wrong");
+            }
         }
     }
 }

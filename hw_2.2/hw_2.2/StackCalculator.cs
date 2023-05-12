@@ -14,56 +14,54 @@
         {
             if (!isNumber)
             {
-                Console.WriteLine("Wrong input. Input must contain numbers or +, -, *, /. Between symbols must be space.\n" +
-                    "if symbols are correct then arithmetic expression is wrong");
-                Environment.Exit(0);
+                throw new ArgumentException("Bad input");
             }
         }
 
         private (double, double) GetNumbers()
         {
-            bool isNumber = stack.Pop(out double firstNumber);
-            CheckNumber(isNumber);
+            (bool isNumber, double number) firstPopResult = stack.Pop();
+            CheckNumber(firstPopResult.isNumber);
 
-            isNumber = stack.Pop(out double secondNumber);
-            CheckNumber(isNumber);
+            (bool isNumber, double number) secondPopResult = stack.Pop();
+            CheckNumber(secondPopResult.isNumber);
 
-            return (firstNumber, secondNumber);
+            return (firstPopResult.number, secondPopResult.number);
         }
 
         public double Calculate(string str)
         {
-            string[] input = str.Split(' ');
+            string[] input = str.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < input.Length; ++i)
             {
                 if (input[i] == "+")
                 {
-                    (double, double) numbers = GetNumbers();
+                    (double x, double y) numbers = GetNumbers();
 
-                    stack.Push(numbers.Item1 + numbers.Item2);
+                    stack.Push(numbers.x + numbers.y);
                 }
                 else if (input[i] == "-")
                 {
-                    (double, double) numbers = GetNumbers();
+                    (double x, double y) numbers = GetNumbers();
 
-                    stack.Push(numbers.Item2 - numbers.Item1);
+                    stack.Push(numbers.y - numbers.x);
                 }
                 else if (input[i] == "*")
                 {
-                    (double, double) numbers = GetNumbers();
+                    (double x, double y) numbers = GetNumbers();
 
-                    stack.Push(numbers.Item1 * numbers.Item2);
+                    stack.Push(numbers.x * numbers.y);
                 }
                 else if (input[i] == "/")
                 {
-                    (double, double) numbers = GetNumbers();
-                    if (numbers.Item1.CompareTo(0) == 0)
+                    (double x, double y) numbers = GetNumbers();
+                    if (numbers.x.CompareTo(0) == 0)
                     {
                         Console.WriteLine("Dividing by zero exception");
                         Environment.Exit(0);
                     }
 
-                    stack.Push(numbers.Item2 / numbers.Item1);
+                    stack.Push(numbers.y / numbers.x);
                 }
                 else
                 {
@@ -72,14 +70,12 @@
                     stack.Push(number);
                 }
             }
-            stack.Pop(out double result);
-            if (!stack.isEmpty())
+            (bool isNumber, double number) popRsult= stack.Pop();
+            if (!stack.isEmpty)
             {
-                Console.WriteLine("Wrong input. Input must contain numbers or +, -, *, /. Between symbols must be space.\n" +
-                    "if symbols are correct then arithmetic expression is wrong");
-                Environment.Exit(0);
+                throw new ArgumentException("Bad input");
             }
-            return result;
+            return popRsult.number;
         }
     }
 }
