@@ -4,7 +4,7 @@
     public class Trie
     {
         private TrieNode head;
-        public int Size { get; set; }
+        public int Size { get; private set; }
 
         private class TrieNode
         {
