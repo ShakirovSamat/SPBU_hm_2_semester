@@ -20,6 +20,7 @@
         }
     }
 
+    //adds value to binary heap
     public void Add(T value, int priority)
     {
         Node newNode = new Node(value, priority);
@@ -38,6 +39,7 @@
         }
     }
 
+    //returns max element from heap
     public T getMax()
     {
         T result = list[0].value;
