@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace List.Exceptions
 {
-
 	[Serializable]
 	public class ResetingToAldreadyExisingElementException : Exception
 	{

@@ -9,6 +9,10 @@
             public Node? next;
         }
 
+        /// <summary>
+        /// adds element to list
+        /// </summary>
+        /// <param name="value"></param>
         virtual public void Add(int value)
         {
             if (head == null)
@@ -28,6 +32,10 @@
             currentNode.next.value = value;
         }
 
+        /// <summary>
+        /// deletes element from list
+        /// </summary>
+        /// <param name="value"></param>
         virtual public void Delete(int value)
         {
             if (head == null)
@@ -60,6 +68,12 @@
             }
         }
 
+        /// <summary>
+        /// resetes element at particular index to another
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="value"></param>
+        /// <exception cref="IndexOutOfRangeException"></exception>
         virtual public void Reset(int index, int value)
         {
             if (head == null || index < 0)
@@ -79,13 +93,13 @@
             currentNode.value = value;
         }
 
+        /// <summary>
+        /// returns true if list contains this element
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public bool Contains(int value)
         {
-            if (head == null)
-            {
-                return false;
-            }
-
             Node? currentNode = head;
             while (currentNode != null)
             {
@@ -99,6 +113,9 @@
             return false;
         }
 
+        /// <summary>
+        /// prints the list
+        /// </summary>
         public void print()
         {
             Node? currentNode = head;

@@ -19,6 +19,9 @@ namespace List
             return number;
         }
 
+        /// <summary>
+        /// gets command from user and mannage the list
+        /// </summary>
         public static void Main()
         {
             Console.WriteLine("*****This programm shows how unique list works*****\n");
@@ -35,9 +38,8 @@ namespace List
             {
                 while (true)
                 {
-                    Console.Write("Enter command: ");
-                    bool isNumber = int.TryParse(Console.ReadLine(), out command);
-                    if (isNumber && 0 <= command && command <= 4)
+                    GetNumber("Enter commnad: ", out command);
+                    if (0 <= command && command <= 4)
                     {
                         break;
                     }
@@ -104,6 +106,4 @@ namespace List
 
         }
     }
-
-
 }
