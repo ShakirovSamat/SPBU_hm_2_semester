@@ -5,6 +5,9 @@ namespace ArithmeticTree
 {
     public class Program
     {
+        /// <summary>
+        /// gets path to tje file with arithmetic expression and calculates it
+        /// </summary>
         public static void Main()
         {
             Console.WriteLine("*****Arithmetic expression parse tree*****\n");
@@ -29,18 +32,14 @@ namespace ArithmeticTree
                     Console.WriteLine("Wrong path. File with such path doesn't exist");
                 }
             }
-
             try
             {
-                Tree tree = new Tree(input);
+                var tree = new Tree(input);
                 Console.WriteLine($"Tree: {tree.ToString()}");
                 Console.WriteLine($"Result: {tree.Calculate()}");
             }
-            catch (BadArithmeticExpressionException e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            catch (DivideByZeroException e)
+            catch (Exception e)
+                when (e is BadArithmeticExpressionException || e is DivideByZeroException)
             {
                 Console.WriteLine(e.Message);
             }

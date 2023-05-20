@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ArithmeticTree
 {
-    public class OperationNode: INodeable
+    public class OperationNode: INode
     {
         string operation;
-        public INodeable? First { get; set; }
-        public INodeable? Second { get; set; }
+        public INode First { get; set; }
+        public INode Second { get; set; }
 
 
         public OperationNode(string operation)
@@ -20,7 +20,12 @@ namespace ArithmeticTree
             this.operation = operation;
         }
 
-        // calculates binary operation
+        /// <summary>
+        /// calculates binary operation
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="DivideByZeroException"></exception>
+        /// <exception cref="BadArithmeticExpressionException"></exception>
         public double Calculate()
         {
             switch (operation)
@@ -35,7 +40,7 @@ namespace ArithmeticTree
                     return First.Calculate() * Second.Calculate();
 
                 case "/":
-                    if (Second.Calculate().Equals(0))
+                    if (Math.Abs(Second.Calculate() - 0) <= 0.000000001)
                     {
                         throw new DivideByZeroException();
                     }
@@ -50,7 +55,10 @@ namespace ArithmeticTree
             return 0;
         }
 
-        // creates prespresenation of binary operation
+        /// <summary>
+        /// creates prespresenation of binary operation
+        /// </summary>
+        /// <returns></returns>
         public string ToString()
         {
             return $"({operation} {First.ToString()} {Second.ToString()})";

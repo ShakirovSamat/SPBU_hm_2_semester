@@ -5,20 +5,24 @@ namespace ArithmeticTree
 {
     public class Tree
     {
-        INodeable root;
+        INode root;
         int pointer;
 
         public Tree(string input)
         {
-            string[] inputs = input.Replace("(", "").Replace(")", "").Split(" ");
+            string[] inputs = input.Replace("(", "").Replace(")", "").Split(" ", StringSplitOptions.RemoveEmptyEntries);
             pointer = 0;
             root = GetTreeNode(inputs[pointer]);
             ++pointer;
             BuildTree(root, inputs, ref pointer);
         }
 
-        //gets operation or nubmer from arithmetic expression
-        public INodeable GetTreeNode(string value)
+        /// <summary>
+        /// gets operation or nubmer from arithmetic expression
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public INode GetTreeNode(string value)
         {
             if (int.TryParse(value, out int number))
             {
@@ -28,8 +32,14 @@ namespace ArithmeticTree
             return new OperationNode(value);
         }
 
-        //Builds arithmetic tree
-        public void BuildTree(INodeable node, string[] inputs, ref int pointer)
+        /// <summary>
+        /// Builds arithmetic tree
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="inputs"></param>
+        /// <param name="pointer"></param>
+        /// <exception cref="BadArithmeticExpressionException"></exception>
+        public void BuildTree(INode node, string[] inputs, ref int pointer)
         {
             if (node is NumberNode)
             {
@@ -41,17 +51,30 @@ namespace ArithmeticTree
                 throw new BadArithmeticExpressionException();
             }
 
-            INodeable firstOperand = GetTreeNode(inputs[pointer]);
+            INode firstOperand = GetTreeNode(inputs[pointer]);
             ++pointer;
             InsertNode((OperationNode)node, firstOperand, 1, inputs, ref pointer);
 
-            INodeable secondOperand = GetTreeNode(inputs[pointer]);
+            INode secondOperand = GetTreeNode(inputs[pointer]);
             ++pointer;
             InsertNode((OperationNode)node, secondOperand, 2, inputs, ref pointer);
+
+            if (pointer < inputs.Length - 1)
+            {
+                throw new BadArithmeticExpressionException("");
+            }
         }
 
-        // fills inforamtion into node
-        public void InsertNode(OperationNode operation, INodeable operand, int position, string[] inputs, ref int pointer)
+        /// <summary>
+        /// fills inforamtion into node
+        /// </summary>
+        /// <param name="operation"></param>
+        /// <param name="operand"></param>
+        /// <param name="position"></param>
+        /// <param name="inputs"></param>
+        /// <param name="pointer"></param>
+        /// <exception cref="BadArithmeticExpressionException"></exception>
+        public void InsertNode(OperationNode operation, INode operand, int position, string[] inputs, ref int pointer)
         {
             if (pointer > inputs.Length)
             {
@@ -72,13 +95,19 @@ namespace ArithmeticTree
             }
         }
 
-        // calculates aritmetic expression
+        /// <summary>
+        /// calculates aritmetic expression
+        /// </summary>
+        /// <returns></returns>
         public double Calculate()
         {
             return root.Calculate();
         }
 
-        // creates represenations of arithmetic tree
+        /// <summary>
+        /// creates represenations of arithmetic tree
+        /// </summary>
+        /// <returns></returns>
         public string ToString()
         {
             return root.ToString();
