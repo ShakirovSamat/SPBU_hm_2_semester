@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\hw_2.2\StackCalculator.csproj" />
+    <ProjectReference Include="..\StackCalculator\StackCalculator.csproj" />
   </ItemGroup>
 
 </Project>

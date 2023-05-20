@@ -1,4 +1,4 @@
-﻿namespace StackCalculator
+﻿namespace program
 {
     // stacl calculator realization
     public class StackCalculator

@@ -1,102 +1,99 @@
 using NUnit.Framework;
-using StackCalculator;
+using program;
 
 namespace StackCalculatorTests
 {
     public class Tests
     {
-        IStack[] stacks = { new StackBasedOnArray(), new StackBasedOnLinkedList() };
-        StackCalculator.StackCalculator[] stackCalculators = { new StackCalculator.StackCalculator(new StackBasedOnArray()), new StackCalculator.StackCalculator(new StackBasedOnLinkedList()) };
+        private static IEnumerable<TestCaseData> TypeOfStack
+        {
+            get
+            {
+                yield return new TestCaseData(new StackBasedOnArray());
+                yield return new TestCaseData(new StackBasedOnLinkedList());
+            }
+        }
+
+        private static IEnumerable<TestCaseData> TypeOfStackCalculator
+        {
+            get
+            {
+                yield return new TestCaseData(new StackCalculator(new StackBasedOnArray()));
+                yield return new TestCaseData(new StackCalculator(new StackBasedOnLinkedList()));
+            }
+        }
+
+        double result;
 
         [SetUp]
         public void Setup()
         {
         }
 
-        [Test]
-        public void PushAndPopShoulGetTheSameNumber()
+        [TestCaseSource(nameof(TypeOfStack))]
+        public void PushAndPopShoulGetTheSameNumber(IStack stack)
         {
-            for (int i = 0; i < stacks.Length; ++i)
-            {
-                stacks[i].Push(15);
-                stacks[i].Pop(out double result);
-                Assert.That(result, Is.EqualTo(15));
-            }
+            stack.Push(15);
+            stack.Pop(out double result);
+            Assert.That(result, Is.EqualTo(15));
         }
 
-        [Test]
-        public void PushAndPopShouldBeEmptyStack()
+        [TestCaseSource(nameof(TypeOfStack))]
+        public void PushAndPopShouldBeEmptyStack(IStack stack)
         {
-            for (int i = 0; i < stacks.Length; ++i)
-            {
-                stacks[i].Push(15);
-                stacks[i].Pop(out double result);
-                Assert.IsTrue(stacks[i].isEmpty());
-            }
+
+            stack.Push(15);
+            stack.Pop(out double result);
+            Assert.IsTrue(stack.isEmpty());
+
         }
 
-        [Test]
-        public void Plus5And7ShouldReturn12()
+        [TestCaseSource(nameof(TypeOfStackCalculator))]
+        public void Plus5And7ShouldReturn12(StackCalculator stackCalculator)
         {
-            for (int i = 0; i < stackCalculators.Length; ++i)
-            {
-                Assert.That(stackCalculators[i].Calculate("5 7 +"), Is.EqualTo(12));
-            }
+            result = stackCalculator.Calculate("5 7 +");
+            Assert.IsTrue(Math.Abs(result - 12) < 00000000.1);
         }
 
-        [Test]
-        public void Substract9From99ShouldReturn90()
+        [TestCaseSource(nameof(TypeOfStackCalculator))]
+        public void Substract9From99ShouldReturn90(StackCalculator stackCalculator)
         {
-            for (int i = 0; i < stackCalculators.Length; ++i)
-            {
-                Assert.That(stackCalculators[i].Calculate("99 9 -"), Is.EqualTo(90));
-            }
+            result = stackCalculator.Calculate("99 9 -");
+            Assert.IsTrue(Math.Abs(result - 90) < 00000000.1);
         }
 
-        [Test]
-        public void Multiply5By9ShouldREturn45()
+        [TestCaseSource(nameof(TypeOfStackCalculator))]
+        public void Multiply5By9ShouldREturn45(StackCalculator stackCalculator)
         {
-            for (int i = 0; i < stackCalculators.Length; ++i)
-            {
-                Assert.That(stackCalculators[i].Calculate("5 9 *"), Is.EqualTo(45));
-            }
+            result = stackCalculator.Calculate("5 9 *");
+            Assert.IsTrue(Math.Abs(result - 45) < 00000000.1);
         }
 
-        [Test]
-        public void DividingBy0ShouldReturnNotANumber()
+        [TestCaseSource(nameof(TypeOfStackCalculator))]
+        public void DividingBy0ShouldReturnNotANumber(StackCalculator stackCalculator)
         {
-            for (int i = 0; i < stackCalculators.Length; ++i)
-            {
-                Assert.IsTrue(Double.IsNaN(stackCalculators[i].Calculate("1 0 /")));
-            }
+
+            Assert.IsTrue(Double.IsNaN(stackCalculator.Calculate("1 0 /")));
         }
 
-        [Test]
-        public void BadInputShouldRetunrNotANumber()
+        [TestCaseSource(nameof(TypeOfStackCalculator))]
+        public void BadInputShouldRetunrNotANumber(StackCalculator stackCalculator)
         {
-            for (int i = 0; i < stackCalculators.Length; ++i)
-            {
-                Assert.IsTrue(Double.IsNaN(stackCalculators[i].Calculate("g 6 +")));
-            }
+            Assert.IsTrue(Double.IsNaN(stackCalculator.Calculate("g 6 +")));
         }
 
-        [Test]
-        public void Dividing5By10ShouldRetunr0dot5()
-        { 
-            for (int i = 0; i < stackCalculators.Length; ++i)
-            {
-                Assert.That(stackCalculators[i].Calculate("5 10 /"), Is.EqualTo(0.5));
-            }
-        }
-
-        [Test]
-        public void BigExpressionShouldRetunrRightResult()
+        [TestCaseSource(nameof(TypeOfStackCalculator))]
+        public void Dividing5By10ShouldRetunr0dot5(StackCalculator stackCalculator)
         {
-            for (int i = 0; i < stackCalculators.Length; ++i)
-            {
-                Assert.That(stackCalculators[i].Calculate("56 78 12 -54 1 -5 9 + / - + * +"), Is.EqualTo(-3239.5));
-            }
+            result = stackCalculator.Calculate("5 10 /");
+            Assert.IsTrue(Math.Abs(result - 0.5) < 00000000.1);
         }
 
+        [TestCaseSource(nameof(TypeOfStackCalculator))]
+        public void BigExpressionShouldRetunrRightResult(StackCalculator stackCalculator)
+        {
+            result = stackCalculator.Calculate("56 78 12 -54 1 -5 9 + / - + * +");
+            Assert.IsTrue(Math.Abs(result - -3239.5) < 00000000.1);
+        }
     }
 }

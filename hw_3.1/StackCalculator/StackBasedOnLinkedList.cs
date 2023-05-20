@@ -1,4 +1,4 @@
-﻿namespace StackCalculator
+﻿namespace program
 {
     //stack based on an liked list realization
     public class StackBasedOnLinkedList : IStack

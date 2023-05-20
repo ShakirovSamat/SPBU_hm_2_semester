@@ -1,4 +1,4 @@
-﻿namespace StackCalculator
+﻿namespace program
 {
     //stack based on an array realization
     public class StackBasedOnArray: IStack

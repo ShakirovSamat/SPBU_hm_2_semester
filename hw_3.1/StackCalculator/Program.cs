@@ -1,4 +1,4 @@
-﻿namespace StackCalculator
+﻿namespace program
 {
     class Program
     {
