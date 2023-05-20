@@ -1,23 +1,25 @@
-﻿using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text;
 using System.Threading.Tasks.Dataflow;
 
 namespace LZW
 {
     public static class LZW
     {
-        public static string Compress(string uncompressed)
+        const int LENGTH = 256;
+        public static string Compress(byte[] uncompressed)
         {
             Trie trie = new Trie();
-            List<int> compressed = new List<int>();
+            List<byte> compressed = new List<byte>();
 
 
-            for (int i = 0; i < 256; ++i)
+            for (byte i = 0; i < LENGTH; ++i)
             {
-                trie.Add(((char)i).ToString());
+                trie.Add(i);
             }
 
             string sequence = string.Empty;
-            foreach(char sign in uncompressed)
+            foreach(byte sign in uncompressed)
             {
                 string sequencesign = sequence + sign;
                 if (trie.Contains(sequencesign))
@@ -42,6 +44,10 @@ namespace LZW
 
         public static string Decompress(int[] compressed)
         {
+            if (compressed == null)
+            {
+                return String.Empty;
+            }
 
             Trie trie = new Trie();
             for (int i = 0; i < 256; ++i)

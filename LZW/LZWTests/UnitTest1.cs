@@ -9,6 +9,18 @@ namespace LZWTests
         }
 
         [Test]
+        public void EmptyInputCompressTest()
+        {
+            Assert.AreEqual(LZW.LZW.Compress(String.Empty), String.Empty);
+        }
+
+        [Test]
+        public void EmptyInputDecompressTest()
+        {
+            Assert.AreEqual(LZW.LZW.Decompress( null), String.Empty);
+        }
+
+        [Test]
         public void CompressTest()
         {
             Assert.AreEqual(LZW.LZW.Compress("WYS*WYGWYS*WYSWYSG"), "87 89 83 42 256 71 256 258 262 262 71");
