@@ -2,13 +2,12 @@
 {
     public interface IStack
     {
+        // cheacks if stack is empty
+        public bool isEmpty { get; }
         //gets value from stack
-        public bool Pop(out double result);
+        public (bool, double) Pop();
 
         // adds value to stack
-        public bool Push(double value);
-
-        // cheacks if stack is empty
-        public bool isEmpty();
+        public void Push(double value);
     }
 }

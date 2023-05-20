@@ -4,50 +4,37 @@
     public class StackBasedOnLinkedList : IStack
     {
         Node? head;
+        public bool isEmpty { get { return head == null; } }
         internal class Node
         {
             public double Value { get; set; }
-            public Node? Next {get;set;}
+            public Node? Next { get; set; }
 
-            public Node (double value)
+            public Node(double value)
             {
                 this.Value = value;
             }
         }
 
         //gets value from stack
-        public bool Pop(out double result)
+        public (bool, double) Pop()
         {
-            result = 0;
             if (head == null)
             {
-                return false;
+                return (false, double.MinValue);
             }
 
-            result = head.Value;
+            double result = head.Value;
             head = head.Next;
-            return true;
+            return (true, result);
         }
 
         // adds value to stack
-        public bool Push(double value)
+        public void Push(double value)
         {
-            if (head == null)
-            {
-                head = new Node(value);
-                return true;
-            }
-
             Node newNode = new Node(value);
             newNode.Next = head;
             head = newNode;
-            return true;
-        }
-
-        // cheacks if stack is empty
-        public bool isEmpty()
-        {
-            return head == null;
         }
     }
 }

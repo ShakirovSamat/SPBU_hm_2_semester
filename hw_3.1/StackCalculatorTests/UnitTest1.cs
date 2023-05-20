@@ -34,8 +34,8 @@ namespace StackCalculatorTests
         public void PushAndPopShoulGetTheSameNumber(IStack stack)
         {
             stack.Push(15);
-            stack.Pop(out double result);
-            Assert.That(result, Is.EqualTo(15));
+            (bool, double) res = stack.Pop();
+            Assert.IsTrue(Math.Abs(res.Item2 - 15) < 0.0000001);
         }
 
         [TestCaseSource(nameof(TypeOfStack))]
@@ -43,8 +43,8 @@ namespace StackCalculatorTests
         {
 
             stack.Push(15);
-            stack.Pop(out double result);
-            Assert.IsTrue(stack.isEmpty());
+            stack.Pop();
+            Assert.IsTrue(stack.isEmpty);
 
         }
 
@@ -52,21 +52,21 @@ namespace StackCalculatorTests
         public void Plus5And7ShouldReturn12(StackCalculator stackCalculator)
         {
             result = stackCalculator.Calculate("5 7 +");
-            Assert.IsTrue(Math.Abs(result - 12) < 00000000.1);
+            Assert.IsTrue(Math.Abs(result - 12) < 0.0000001);
         }
 
         [TestCaseSource(nameof(TypeOfStackCalculator))]
         public void Substract9From99ShouldReturn90(StackCalculator stackCalculator)
         {
             result = stackCalculator.Calculate("99 9 -");
-            Assert.IsTrue(Math.Abs(result - 90) < 00000000.1);
+            Assert.IsTrue(Math.Abs(result - 90) < 0.0000001);
         }
 
         [TestCaseSource(nameof(TypeOfStackCalculator))]
         public void Multiply5By9ShouldREturn45(StackCalculator stackCalculator)
         {
             result = stackCalculator.Calculate("5 9 *");
-            Assert.IsTrue(Math.Abs(result - 45) < 00000000.1);
+            Assert.IsTrue(Math.Abs(result - 45) < 0.0000001);
         }
 
         [TestCaseSource(nameof(TypeOfStackCalculator))]
@@ -86,14 +86,14 @@ namespace StackCalculatorTests
         public void Dividing5By10ShouldRetunr0dot5(StackCalculator stackCalculator)
         {
             result = stackCalculator.Calculate("5 10 /");
-            Assert.IsTrue(Math.Abs(result - 0.5) < 00000000.1);
+            Assert.IsTrue(Math.Abs(result - 0.5) < 0.0000001);
         }
 
         [TestCaseSource(nameof(TypeOfStackCalculator))]
         public void BigExpressionShouldRetunrRightResult(StackCalculator stackCalculator)
         {
             result = stackCalculator.Calculate("56 78 12 -54 1 -5 9 + / - + * +");
-            Assert.IsTrue(Math.Abs(result - -3239.5) < 00000000.1);
+            Assert.IsTrue(Math.Abs(result - -3239.5) < 0.0000001);
         }
     }
 }

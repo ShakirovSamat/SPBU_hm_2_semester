@@ -1,42 +1,34 @@
 ﻿namespace program
 {
     //stack based on an array realization
-    public class StackBasedOnArray: IStack
+    public class StackBasedOnArray : IStack
     {
 
-        int head = 0;
+        int size = 0;
         double[] stackArray = new double[128];
+        public bool isEmpty { get { return size == 0; } }
 
         //gets value from stack
-        public bool Pop(out double  result)
+        public (bool, double) Pop()
         {
-            if (head == 0)
+            if (size == 0)
             {
-                result = 0;
-                return false;
+                return (false, double.MinValue);
             }
-            --head;
-            result = stackArray[head];
-            return true;
+            --size;
+            return (true, stackArray[size]);
         }
 
         // adds value to stack
-        public bool Push(double value)
+        public void Push(double value)
         {
-            if (head == stackArray.Length)
+            if (size == stackArray.Length)
             {
                 Array.Resize(ref stackArray, stackArray.Length * 2);
             }
 
-            stackArray[head] = value;
-            ++head;
-            return true;
-        }
-
-        // cheacks if stack is empty
-        public bool isEmpty()
-        {
-            return head == 0;
+            stackArray[size] = value;
+            ++size;
         }
     }
 }
