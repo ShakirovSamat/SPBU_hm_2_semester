@@ -70,12 +70,12 @@
                     stack.Push(number);
                 }
             }
-            (bool isNumber, double number) popRsult= stack.Pop();
+            (bool isNumber, double number) popResult = stack.Pop();
             if (!stack.isEmpty)
             {
                 throw new ArgumentException("Bad input");
             }
-            return popRsult.number;
+            return popResult.number;
         }
     }
 }
