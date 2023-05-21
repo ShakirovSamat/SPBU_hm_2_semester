@@ -2,20 +2,16 @@
 
 namespace Delegates
 {
-    // заменить делигаты на анонимыные функции
-    public delegate int Map(int x);
-    public delegate bool Filter(int x);
-    public delegate int Fold(int x, int y);
     public static class FunctionCollector
     {
-        //возвращать новый список, не менять старый список
-        public static List<int> Map(List<int> list, Func<int ,int> map)
+        public static List<int> Map(List<int> list, Func<int, int> map)
         {
+            var result = new List<int>();
             for (int i = 0; i < list.Count; ++i)
             {
-                list[i] = map(list[i]);
+                result.Add(map(list[i]));
             }
-            return list;
+            return result;
         }
 
         public static List<int> Filter(List<int> list, Func<int, bool> filter)
@@ -31,9 +27,9 @@ namespace Delegates
             return result;
         }
 
-        public static int Fold(List<int> list, int accumulator, Fold fold)
+        public static int Fold(List<int> list, int accumulator, Func<int, int, int> fold)
         {
-            foreach(int x in list)
+            foreach (int x in list)
             {
                 accumulator = fold(x, accumulator);
             }

@@ -1,31 +1,30 @@
 using Delegates;
+using System.Security.Cryptography.X509Certificates;
 
 namespace DelegatesTest
 {
     public class Tests
     {
-        //названия
-        //добавить тест с пустым списком для функции fold
         List<int> list;
         [SetUp]
         public void Setup()
         {
-            list = new List<int>() { 1, 2, 3, 4, 5};
+            list = new List<int>() { 1, 2, 3, 4, 5 };
         }
 
         [Test]
-        public void Test1()
+        public void MapFunctionTest()
         {
-            FunctionCollector.Map(list, x => x + 2);
-            Assert.AreEqual(3, list[0]);
-            Assert.AreEqual(4, list[1]);
-            Assert.AreEqual(5, list[2]);
-            Assert.AreEqual(6, list[3]);
-            Assert.AreEqual(7, list[4]);
+            var result = FunctionCollector.Map(list, x => x + 2);
+            Assert.AreEqual(3, result[0]);
+            Assert.AreEqual(4, result[1]);
+            Assert.AreEqual(5, result[2]);
+            Assert.AreEqual(6, result[3]);
+            Assert.AreEqual(7, result[4]);
         }
 
         [Test]
-        public void Test2()
+        public void FilterFunctionTest()
         {
             List<int> result = FunctionCollector.Filter(list, x => x % 2 == 0);
             Assert.AreEqual(2, result[0]);
@@ -33,10 +32,16 @@ namespace DelegatesTest
         }
 
         [Test]
-        public void Test3()
+        public void FoldFunctionDefaultTest()
         {
-            Assert.AreEqual(16,FunctionCollector.Fold(list, 1, (x, y) => x + y));
-            
+            Assert.AreEqual(16, FunctionCollector.Fold(list, 1, (x, y) => x + y));
+
+        }
+
+        [Test]
+        public void FoldFunctionEmptyInputTest()
+        {
+            Assert.AreEqual(1, FunctionCollector.Fold(new List<int>(), 1, (x, y) => x + y));
         }
     }
 }
