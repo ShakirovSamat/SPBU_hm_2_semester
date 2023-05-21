@@ -2,6 +2,7 @@
 {
     class Program
     {
+        // входные данные считавать с параметров консольного приложения
         public static void Main(string[] args)
         {
             Console.WriteLine("*****Router's network*****");
@@ -12,7 +13,7 @@
             {
                 Console.Write("Enter absolute path to file: ");
                 path = Console.ReadLine();
-                if (File.Exists(@path))
+                if (File.Exists(path))
                 {
                     break;
                 }
@@ -33,10 +34,11 @@
                     {
                         break;
                     }
-
+                    //добавить проверку корректности файла
                     data = data.Replace("(", "").Replace(")", "").Replace(":", "").Replace(",", "");
                     string[] edgesData = data.Split(' ');
-                    try {
+                    try
+                    {
                         if (!int.TryParse(edgesData[0], out int vertex1) || vertex1 <= 0)
                         {
                             throw new BadFileInputException("Bad input in file");
@@ -64,15 +66,13 @@
                     {
                         Console.WriteLine(e.Message);
                     }
-
-
                 }
-
             }
-            
+
             //solving task
             List<Edge> result = Graph.PrimsAlgorithm(vertexes.GetSize(), edges);
 
+            //вынести печать в отдельный метод
             //outputing result to the console
             int lastVertex1 = -1;
             for (int i = 0; i < result.Count; ++i)

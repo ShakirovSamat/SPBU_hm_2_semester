@@ -2,6 +2,9 @@
 {
     public class GraphTests
     {
+        //имена
+        //тест на несвязанный граф
+        //тест на парсер
         [SetUp]
         public void Setup()
         {

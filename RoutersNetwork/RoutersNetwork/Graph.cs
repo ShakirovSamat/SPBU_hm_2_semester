@@ -2,11 +2,12 @@
 {
     public static class Graph
     {
+        //заменить методы индекс оф на контайнс
 
         //Prim's algorithm
         public static List<Edge> PrimsAlgorithm(int amountOfVertexes, List <Edge> edges)
         {
-            List<Edge> mst = new List<Edge>();
+            List<Edge> miningSpanningTree = new List<Edge>();
             List<Edge> notUesdEedges = new List<Edge>(edges);
             List<int> notUsedVertexes = new List<int>();
             List<int> usedVertexes = new List<int>();
@@ -21,13 +22,13 @@
 
             while (notUsedVertexes.Count > 0)
             {
-                int maxEdge = -1;
+                int maxEdge = int.MinValue;
                 for (int i = 0; i < notUesdEedges.Count; ++i)
                 {
-                    if ((usedVertexes.IndexOf(notUesdEedges[i].Vertex1) != -1) && (notUsedVertexes.IndexOf(notUesdEedges[i].Vertex2) != -1)
-                        || (usedVertexes.IndexOf(notUesdEedges[i].Vertex2) != -1)  && (notUsedVertexes.IndexOf(notUesdEedges[i].Vertex1) != -1))
+                    if (usedVertexes.IndexOf(notUesdEedges[i].Vertex1) != -1 && notUsedVertexes.IndexOf(notUesdEedges[i].Vertex2) != -1
+                        || usedVertexes.IndexOf(notUesdEedges[i].Vertex2) != -1  && notUsedVertexes.IndexOf(notUesdEedges[i].Vertex1) != -1)
                     {
-                        if (maxEdge != -1)
+                        if (maxEdge != int.MinValue)
                         {
                             if (notUesdEedges[i].Weight > notUesdEedges[maxEdge].Weight)
                             {
@@ -52,11 +53,12 @@
                     notUsedVertexes.Remove(notUesdEedges[maxEdge].Vertex1);
                 }
 
-                mst.Add(notUesdEedges[maxEdge]);
-                notUesdEedges.RemoveAt(maxEdge);
+                miningSpanningTree.Add(notUesdEedges[maxEdge]);
+                notUesdEedges.RemoveAt(maxEdge);//опасность
 
             }
-            return mst;
+            // Добавить проверку на несвязанный граф
+            return miningSpanningTree;
 
         }
     }
