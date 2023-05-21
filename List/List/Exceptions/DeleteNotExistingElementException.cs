@@ -1,4 +1,4 @@
-﻿namespace List.Exceptions
+﻿namespace program
 {
 	[Serializable]
 	public class DeleteNotExistingElementException : Exception

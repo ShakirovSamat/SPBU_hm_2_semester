@@ -1,6 +1,4 @@
-﻿using List.Exceptions;
-
-namespace List
+﻿namespace program
 {
     public class Program
     {

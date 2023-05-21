@@ -1,4 +1,4 @@
-﻿namespace List
+﻿namespace program
 {
     public class List
     {
@@ -8,6 +8,8 @@
             public int value;
             public Node? next;
         }
+
+        public int Count { get; private set; }
 
         /// <summary>
         /// adds element to list
@@ -30,6 +32,7 @@
 
             currentNode.next = new Node();
             currentNode.next.value = value;
+            ++Count;
         }
 
         /// <summary>
@@ -57,7 +60,7 @@
             {
                 if (currentNode.value == value)
                 {
-
+                    --Count;
                     previousNode.next = currentNode.next;
                     return;
                 }

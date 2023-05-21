@@ -1,4 +1,4 @@
-﻿namespace List.Exceptions
+﻿namespace program
 {
     public class AddSameValueException : Exception
     {
