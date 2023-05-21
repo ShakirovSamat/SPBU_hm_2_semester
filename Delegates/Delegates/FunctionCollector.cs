@@ -2,12 +2,14 @@
 
 namespace Delegates
 {
+    // заменить делигаты на анонимыные функции
     public delegate int Map(int x);
     public delegate bool Filter(int x);
     public delegate int Fold(int x, int y);
     public static class FunctionCollector
     {
-        public static List<int> Map(List<int> list, Map map)
+        //возвращать новый список, не менять старый список
+        public static List<int> Map(List<int> list, Func<int ,int> map)
         {
             for (int i = 0; i < list.Count; ++i)
             {
@@ -16,9 +18,9 @@ namespace Delegates
             return list;
         }
 
-        public static List<int> Filter(List<int> list, Filter filter)
+        public static List<int> Filter(List<int> list, Func<int, bool> filter)
         {
-            List<int> result = new List<int>();
+            var result = new List<int>();
             foreach (int x in list)
             {
                 if (filter(x))
@@ -29,13 +31,13 @@ namespace Delegates
             return result;
         }
 
-        public static int Fold(List<int> list, int startValue, Fold fold)
+        public static int Fold(List<int> list, int accumulator, Fold fold)
         {
             foreach(int x in list)
             {
-                startValue = fold(x, startValue);
+                accumulator = fold(x, accumulator);
             }
-            return startValue;
+            return accumulator;
         }
     }
 }

@@ -4,6 +4,8 @@ namespace DelegatesTest
 {
     public class Tests
     {
+        //названия
+        //добавить тест с пустым списком для функции fold
         List<int> list;
         [SetUp]
         public void Setup()
