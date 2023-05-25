@@ -2,8 +2,6 @@
 {
     public static class Graph
     {
-        //заменить методы индекс оф на контайнс
-
         //Prim's algorithm
         public static List<Edge> PrimsAlgorithm(int amountOfVertexes, List <Edge> edges)
         {
@@ -25,8 +23,8 @@
                 int maxEdge = int.MinValue;
                 for (int i = 0; i < notUesdEedges.Count; ++i)
                 {
-                    if (usedVertexes.IndexOf(notUesdEedges[i].Vertex1) != -1 && notUsedVertexes.IndexOf(notUesdEedges[i].Vertex2) != -1
-                        || usedVertexes.IndexOf(notUesdEedges[i].Vertex2) != -1  && notUsedVertexes.IndexOf(notUesdEedges[i].Vertex1) != -1)
+                    if (usedVertexes.Contains(notUesdEedges[i].Vertex1) && notUsedVertexes.Contains(notUesdEedges[i].Vertex2)
+                        || usedVertexes.Contains(notUesdEedges[i].Vertex2)  && notUsedVertexes.Contains(notUesdEedges[i].Vertex1))
                     {
                         if (maxEdge != int.MinValue)
                         {
