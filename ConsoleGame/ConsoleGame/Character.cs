@@ -7,14 +7,14 @@
 
         public Character(string gameField)
         {
-            var currentCharactertPosition = GetStartCharacterPosition(gameField);
+            (int X, int Y)? currentCharactertPosition = GetStartCharacterPosition(gameField);
             if (currentCharactertPosition == null)
             {
-                throw new WrongMapException("There is no character on the map");
+                throw new WrongMapException("There is no character on the mapMatrix");
             }
 
-            XPosition = currentCharactertPosition.Value.Item1;
-            YPosition = currentCharactertPosition.Value.Item2 + 2;
+            XPosition = currentCharactertPosition.Value.X;
+            YPosition = currentCharactertPosition.Value.Y;
         }
         public (int, int)? GetStartCharacterPosition(string map)
         {
@@ -22,7 +22,7 @@
             int top = 0;
             for (int i = 0; i < map.Length; ++i)
             {
-                if (map[i] == '@')
+                if (map[i] == (char)Map.MapCell.Character)
                 {
                     return (left, top);
                 }

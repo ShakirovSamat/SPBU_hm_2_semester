@@ -6,11 +6,10 @@
         public static void Main()
         {
             Console.WriteLine("        *****Adventure*****");
-            Console.Write("Enter absolute path to the map file: ");
             string? absolutePath;
             while (true)
             {
-                Console.Write("Enter absolute path to the map file: ");
+                Console.Write("Enter absolute path to the mapMatrix file: ");
                 absolutePath = Console.ReadLine();
                 if (File.Exists(absolutePath))
                 {
@@ -19,10 +18,11 @@
                 Console.WriteLine("File dosn't exist");
             }
 
-
             string gameField = File.ReadAllText(absolutePath);
             Game game = new Game(gameField);
+            Console.CursorVisible = false;
             game.Run();
+            Console.CursorVisible = true;
         }
     }
 }

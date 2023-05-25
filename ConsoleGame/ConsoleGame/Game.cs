@@ -20,7 +20,7 @@ namespace ConsoleGame
                 Console.WriteLine(e.Message);
             }
 
-            gameField = gameField.Replace('@', ' ');
+            gameField = gameField.Replace((char)Map.MapCell.Character, (char)Map.MapCell.Empty);
             map = new Map(gameField);
 
 
@@ -33,7 +33,7 @@ namespace ConsoleGame
                 if (map.IsLeftEmpty(character))
                 {
                     character.LeftStep();
-                    Drawer.DrawCharacter(character.XPosition, character.YPosition);
+                    Drawer.DrawCharacter(character.XPosition, character.YPosition);                
                 }
             };
 
@@ -67,30 +67,30 @@ namespace ConsoleGame
 
         }
 
-            public void Run()
+        public void Run()
+        {
+            while (true)
             {
-                while (true)
+                var key = Console.ReadKey();
+                switch (key.Key)
                 {
-                    var key = Console.ReadKey();
-                    switch (key.Key)
-                    {
-                        case ConsoleKey.LeftArrow:
-                            left();
-                            break;
+                    case ConsoleKey.LeftArrow:
+                        left();
+                        break;
 
-                        case ConsoleKey.RightArrow:
-                            right();
-                            break;
+                    case ConsoleKey.RightArrow:
+                        right();
+                        break;
 
-                        case ConsoleKey.DownArrow:
-                            down();
-                            break;
+                    case ConsoleKey.DownArrow:
+                        down();
+                        break;
 
-                        case ConsoleKey.UpArrow:
-                            up();
-                            break;
-                    }
+                    case ConsoleKey.UpArrow:
+                        up();
+                        break;
                 }
             }
         }
     }
+}
