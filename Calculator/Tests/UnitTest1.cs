@@ -6,39 +6,36 @@ namespace Tests
         [SetUp]
         public void Setup()
         {
-            calculator = new CalculatorLogic.CalculatorLogic();
+            calculator = new();
         }
 
-        [Test]
-        public void SumTest()
+        [TestCase(10, '+', 5, '+', "15 + ")]
+        [TestCase(10, '-', 5, '+', "5 + ")]
+        [TestCase(10, '*', 5, '+', "50 + ")]
+        [TestCase(10, '/', 2, '+', "5 + ")]
+        [TestCase(10, '-', -5, '+', "15 + ")]
+        public void OperationTestShouldReturnExpected(int firstNum, char firstOperation, int secondNum, char secondOperation, string expected)
         {
-            calculator.Calculate(10, '+');
-            calculator.Calculate(14, '+');
-            Assert.AreEqual("24 + ", calculator.CurrentOutput);
+            calculator.Calculate(firstNum, firstOperation);
+            calculator.Calculate(secondNum, secondOperation);
+            Assert.AreEqual(expected, calculator.CurrentOutput);
         }
 
         [Test]
-        public void SubstractionTest()
-        {
-            calculator.Calculate(10, '-');
-            calculator.Calculate(5, '+');
-            Assert.AreEqual("5 + ", calculator.CurrentOutput);
-        }
-
-        [Test]
-        public void MultiplicationTest()
-        {
-            calculator.Calculate(10, '*');
-            calculator.Calculate(5, '+');
-            Assert.AreEqual("50 + ", calculator.CurrentOutput);
-        }
-
-        [Test]
-        public void DivisionTest()
+        public void DividingByZeroTestShouldReturnException()
         {
             calculator.Calculate(10, '/');
-            calculator.Calculate(2, '+');
-            Assert.AreEqual("5 + ", calculator.CurrentOutput);
+            Assert.Throws<DivideByZeroException>(() => calculator.Calculate(0, '+'));
+        }
+
+        [Test]
+        public void ComplicatedExpressionTest()
+        {
+            calculator.Calculate(100, '+');
+            calculator.Calculate(50, '*');
+            calculator.Calculate(2, '-');
+            calculator.Calculate(1000, '/');
+            Assert.AreEqual("-700 / ", calculator.CurrentOutput);
         }
     }
 }
