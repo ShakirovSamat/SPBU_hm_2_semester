@@ -8,8 +8,8 @@ namespace ConsoleGameTests
             """
             ====
             =@ = 
-            =  =\n
-            ====\n;
+            =  =
+            ====
             """
                ;
         Character character;
